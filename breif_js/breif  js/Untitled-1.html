@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <style>
+
+
+
+h2
+{
+        display: flex;
+        justify-content: center;
+        background-color: rgb(209, 196, 77);
+        height: 3ch;
+}
+#myList
+{
+       display: grid;
+       grid-template-columns:200px 200px 200px 200px ;
+       justify-content: space-around;
+
+}
+.containerButton
+{
+  display: flex;
+  justify-content: center;
+ 
+}
+.btn{margin-left: 15px;}
+@media(max-width:379px)
+ {
+  #myList{
+    display: grid;
+       grid-template-columns:200px ;
+       justify-content: space-around;
+  }
+}
+
+  @media(max-width:768px) and (min-width: 380px) {
+  #myList{
+    display: grid;
+       grid-template-columns:200px 200px ;
+       justify-content: space-around;
+  }
+  
+}
+  </style>
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+	      <title>breif semi final</title>
+
+</head>
+<body style=" background-color: rgb(210, 105, 30)">
+
+<h2>This is my stiky note</h2>
+<div class=containerButton>
+<button id='b' class="btn btn-success"   onclick="ajouter()">Add</button>  
+<input type="button" id="bs" class="btn btn-success"  value="save" onclick="save()">
+<input type="button" id="btv" class="btn btn-success" value="View"   onclick="view()">
+<input type="button" id="bt" class="btn btn-success" value="LCS Clear"   onclick="claer()">
+
+</div>
+
+<div id="myList"></div>
+
+</body>
+
+<script type="text/javascript">
+
+	var i=0;
+	var x=0;
+  var y;
+  var z;
+function ajouter()
+ {
+      i++;
+      y=i;
+      
+  
+//********* Add Div ********************************
+var createDiv=document.createElement("div");
+x=createDiv.id="div"+i;
+document.getElementById("myList").appendChild(createDiv);
+
+//********* Add a  TEXTAREA ********************************
+  var createTextArae = document.createElement("textarea");
+  createTextArae.id="TextA"+i;
+  createTextArae.placeholder="enter your message";
+  createTextArae.cols='30';
+  createTextArae.rows='10';
+
+  document.getElementById(`${x}`).appendChild(createTextArae);
+
+//********* Add a button  delete ********************************
+
+var createDelete = document.createElement("button");
+var textnode1 = document.createTextNode("delete");
+createDelete.id="bts"+i;
+createDelete.className="btn btn-info"
+
+createDelete.appendChild(textnode1);
+createDelete.type="button";
+createDelete.onclick=function ()
+                          {  
+                            var s=this.id ;
+                            var m=s.split('s') 
+                            var c='content' +m[1] 
+                            localStorage.removeItem(c)            
+ this.parentNode.parentNode.removeChild(this.parentNode); 
+                  
+                          };
+
+document.getElementById(`${x}`).appendChild(createDelete);
+
+//********* Add a button update ********************************
+
+var but_mod = document.createElement("button");
+but_mod.id="bt "+i;
+var tex = document.createTextNode("update");
+but_mod.appendChild(tex);
+but_mod.type="button";
+but_mod.className="btn btn-info"
+but_mod.onclick=function ()
+                          {
+                         var t;
+                         t=this.id;
+                         var c;
+                         c=t.split(' ');
+                         var g=c[1];
+                         var o="TextA"+g;
+                         var ll=document.getElementById(`${o}`).value;
+                         alert(ll);                
+                          };
+
+document.getElementById(`${x}`).appendChild(but_mod);
+ 
+}
+var sv;
+
+function save()
+{
+
+document.getElementById('btv').disabled=true;
+      y=`${i}`;
+   
+      localStorage.setItem("i",y);
+
+    var j;
+sv=j;
+for(j=1;j<=y;j++)
+      {
+  var u='TextA'+j;
+  var g="content"+j;
+if(document.getElementById(`${u}`)!=null)
+            {
+  var b=document.getElementById(`${u}`).value;
+  localStorage.setItem(`${g}`,`${b}`);
+            }
+
+       }
+
+alert("GOOD!");
+
+}
+//************************ function view ***************************************
+  var vls ;
+  var gh=new Array();
+  var index=new Array();
+function view()
+{
+/*var j;
+sv=j;
+for(j=1;j<=y;j++)
+      {
+  var u='TextA'+j;
+  var g="content"+j;
+if(g!=null)
+            {
+  document.getElementById(`${u}`).value=localStorage.getItem(`${g}`);
+            }
+       }*/
+
+//alert("Good!!!!");
+
+//ajouter();
+
+
+var o= localStorage.getItem("i");
+     i=o;       
+var tv=parseInt(o);
+
+            for(var z=tv;z>=1;z--)
+            {
+
+              
+                gh[z]=localStorage.getItem("content"+z);
+                index[z]=z;
+                //alert( gh[z]);
+                //alert( index[z]);
+            
+                
+            }
+
+            
+           /* 
+            
+                var t=document.createElement('textarea');
+                t.value=gh[j];
+                document.getElementById('d1').appendChild(t);*/
+
+for (var j =1; j<gh.length; j++)
+             {
+if(gh[j]!=null)
+{
+//********* Add Div ********************************
+var createDiv=document.createElement("div");
+x=createDiv.id="div"+index[j];
+document.getElementById("myList").appendChild(createDiv);
+
+
+//********* Add a  TEXTAREA ********************************
+  var createTextArae = document.createElement("textarea");
+  createTextArae.id="TextA"+index[j];
+  //createTextArae.placeholder="enter your message";
+  createTextArae.value=gh[j];
+  createTextArae.cols='30';
+  createTextArae.rows='10';
+
+  document.getElementById(`${x}`).appendChild(createTextArae);
+
+//********* Add a button  delete ********************************
+
+var createDelete = document.createElement("button");
+var textnode1 = document.createTextNode("delete");
+createDelete.id="bts"+index[j];
+createDelete.className="btn btn-info"
+
+createDelete.appendChild(textnode1);
+createDelete.type="button";
+createDelete.onclick=function ()
+                          {  
+                            var s=this.id ;
+                            var m=s.split('s') 
+                            var c='content' +m[1] 
+                            localStorage.removeItem(c)            
+ this.parentNode.parentNode.removeChild(this.parentNode);  
+
+                          };
+
+document.getElementById(`${x}`).appendChild(createDelete);
+
+//********* Add a button update ********************************
+
+var but_mod = document.createElement("button");
+but_mod.id="bt "+index[j];
+var tex = document.createTextNode("update");
+but_mod.appendChild(tex);
+but_mod.type="button";
+but_mod.className="btn btn-info"
+but_mod.onclick=function ()
+                          {
+                         var t;
+                         t=this.id;
+                         var c;
+                         c=t.split(' ');
+                         var g=c[1];
+                         var o="TextA"+g;
+                         var ll=document.getElementById(`${o}`).value;
+                         alert(ll);                
+                          };
+
+document.getElementById(`${x}`).appendChild(but_mod);
+
+                        }
+
+                      }
+}
+
+
+function claer()
+{
+    localStorage.clear();
+    alert("Good!!!!");
+}
+
+
+</script>
+        <!--src for bootsrap-->
+ <script src="jquery.js"></script>
+ <script src="javascript.js"></script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
